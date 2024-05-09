@@ -1,3 +1,4 @@
+from langchain_qroq import ChatGroq
 import os
 tesseract_path = "/usr/bin/tesseract"  # Replace with the actual path to tesseract
 os.environ["PATH"] += os.pathsep + tesseract_path
@@ -49,6 +50,7 @@ os.environ["LANGCHAIN_PROJECT"] = "multi_model_rag_mvr"
 os.environ["LANGCHAIN_ENDPOINT"] = "https://api.smith.langchain.com"
 api_key = st.secrets["GOOGLE_API_KEY"]
 openai.api_key = st.secrets["OPENAI_API_KEY"]
+GROQ_API_KEY=st.secrets["CHATCROQ_API_KEY"]
 
 
 
@@ -177,12 +179,15 @@ if uploaded_file is not None:
         model = ChatOpenAI(
           temperature=0, model= "gpt-4-turbo", openai_api_key = openai.api_key, max_tokens=1024)
 
-      else:
+      elif time_hist_color == 'gemini-pro':
         model = ChatGoogleGenerativeAI(
             #temperature=0, model="gemini-pro", max_output_tokens=1024
           temperature=0, model="gemini-1.5-pro-latest", max_output_tokens=1024
         )
+      else:
+         model=ChatGroq(model_name="Llama3-8b-8192")
 
+        
       summarize_chain = {"element": lambda x: x} | prompt | model | StrOutputParser()
 
       # Initialize empty summaries
