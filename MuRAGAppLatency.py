@@ -1,4 +1,4 @@
-from langchain_qroq import ChatGroq
+from langchain_groq import ChatGroq
 import os
 tesseract_path = "/usr/bin/tesseract"  # Replace with the actual path to tesseract
 os.environ["PATH"] += os.pathsep + tesseract_path
